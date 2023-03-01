@@ -12,7 +12,7 @@ Buy Now is An e-commerce app. In this app I use Machine Learning Algorithm for u
 - [Room Database](https://developer.android.com/training/data-storage/room) - The Room persistence library provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite. In particular, Room provides the following benefits:
 - [Coroutines Android](https://developer.android.com/kotlin/coroutines) - A coroutine is a concurrency design pattern that you can use on Android to simplify code that executes asynchronously. Coroutines were added to Kotlin in version 1.3 and are based on established concepts from other languages.
 - [Tensor Flow Lite+](https://www.tensorflow.org/lite) - Deploy machine learning models on mobile and IoT devices. TensorFlow Lite is an open     source deep learning framework for on-device inference.
-- [Lottiefiles](https://lottiefiles.com/) - Lightweight, scalable animations for your website and apps. LottieFiles provides all the tools that you need to create, edit, test and display Lottie animations.
+- [Lottiefiles](https://lottiefiles.com///) - Lightweight, scalable animations for your website and apps. LottieFiles provides all the tools that you need to create, edit, test and display Lottie animations.
 - [Material Components for Android](https://github.com/material-components/material-components-android)
   - Modular and customizable Material Design UI components for Android.
 - [Figma](https://figma.com/) - Figma is a vector graphics editor and prototyping tool which is
