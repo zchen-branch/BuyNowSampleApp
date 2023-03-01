@@ -161,6 +161,14 @@
             android:layout_marginLeft="10dp"
             android:elevation="10dp"
             />
+        <Button
+            android:id="@+id/DisableTracking_SettingsPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Disable Tracking"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"/>
+
     </LinearLayout>
 
 

@@ -11,6 +11,7 @@ import com.example.buynow.utils.Extensions.toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import io.branch.referral.Branch
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,6 +23,7 @@ class SettingsActivity : AppCompatActivity() {
     lateinit var nameEt_SettingsPage:EditText
     lateinit var EmailEt_SettingsPage:EditText
     lateinit var saveSetting_SettingsBtn:Button
+    lateinit var newButton:Button
 
     private val userCollectionRef = Firebase.firestore.collection("Users")
     val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -34,6 +36,11 @@ class SettingsActivity : AppCompatActivity() {
         nameEt_SettingsPage = findViewById(R.id.nameEt_SettingsPage)
         EmailEt_SettingsPage = findViewById(R.id.EmailEt_SettingsPage)
         saveSetting_SettingsBtn = findViewById(R.id.saveSetting_SettingsBtn)
+        newButton =findViewById(R.id.DisableTracking_SettingsPage)
+        newButton.setOnClickListener {
+            // Call disable tracking
+            Branch.getInstance().disableTracking(true)
+        }
         val backIv_ProfileFrag:ImageView = findViewById(R.id.backIv_ProfileFrag)
 
 
