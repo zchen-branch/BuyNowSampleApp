@@ -39,7 +39,7 @@ class SettingsActivity : AppCompatActivity() {
         newButton =findViewById(R.id.DisableTracking_SettingsPage)
         newButton.setOnClickListener {
             // Call disable tracking
-            Branch.getInstance().disableTracking(true)
+            Branch.getInstance().disableTracking(false)
         }
         val backIv_ProfileFrag:ImageView = findViewById(R.id.backIv_ProfileFrag)
 

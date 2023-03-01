@@ -8,6 +8,8 @@ class CustomApplicationClass : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        Branch.expectDelayedSessionInitialization(true)
+
         // Branch logging for debugging
         Branch.enableLogging()
 

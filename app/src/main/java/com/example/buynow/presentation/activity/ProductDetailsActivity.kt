@@ -27,9 +27,14 @@ import com.google.gson.reflect.TypeToken
 import io.branch.referral.util.BRANCH_STANDARD_EVENT
 import io.branch.referral.util.BranchEvent
 import java.io.IOException
+import io.branch.indexing.BranchUniversalObject
+import io.branch.referral.util.ContentMetadata
+import io.branch.referral.util.LinkProperties
+import io.branch.referral.util.ShareSheetStyle
+
 
 class ProductDetailsActivity : AppCompatActivity() {
-
+    private lateinit var product: Product
     var productIndex: Int = -1
     lateinit var ProductFrom: String
     private lateinit var cartViewModel: CartViewModel
@@ -61,9 +66,7 @@ class ProductDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_details)
-
         window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-
 
         productIndex = intent.getIntExtra("ProductIndex", -1)
         ProductFrom = intent.getStringExtra("ProductFrom").toString()
@@ -248,7 +251,6 @@ class ProductDetailsActivity : AppCompatActivity() {
 
 
         }
-
 
     }
 
