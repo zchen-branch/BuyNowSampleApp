@@ -36,6 +36,10 @@ import java.io.IOException
 import java.net.URL
 import java.util.*
 import kotlin.collections.ArrayList
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.widget.Toast
+
 
 
 class ProductDetailsActivity : AppCompatActivity() {
@@ -95,21 +99,26 @@ class ProductDetailsActivity : AppCompatActivity() {
                 .setCanonicalIdentifier("content/12345")
                 .setTitle(productName_ProductDetailsPage.toString())
                 .setContentDescription(productDes_ProductDetailsPage.toString())
-                .setContentImageUrl("https://lorempixel.com/400/400")
+                .setContentImageUrl(productImage_ProductDetailsPage.toString())
                 .setContentIndexingMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
                 .setLocalIndexMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
                 .setContentMetadata(ContentMetadata().addCustomMetadata("Branch", "value1"))
 
             val lp = LinkProperties()
-                .setChannel("facebook")
+                .setChannel("SMS")
                 .setFeature("sharing")
                 .setCampaign("content 123 launch")
                 .setStage("new user")
                 .addControlParameter("custom", "data")
 
             buo.generateShortUrl(this,lp, Branch.BranchLinkCreateListener { url, error ->
-                if (url == null) {
-                    Log.i("branch SDK", "GOT MY LINK" + url)
+                if (url != null) {
+                    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clip = ClipData.newPlainText("branch_link", url)
+                    clipboard.setPrimaryClip(clip)
+                    Toast.makeText(this, url + "Link copied to clipboard", Toast.LENGTH_SHORT).show()
+                } else {
+                    Log.i("branch SDK", "Error generating link: $error")
                 }
             })
         }
