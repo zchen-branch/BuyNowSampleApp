@@ -65,6 +65,9 @@ class SplashScreenActivity : AppCompatActivity() {
                 }
             }
         }.withData(this.intent.data).init()
+
+        //get the latest data
+        val sessionParams = Branch.getInstance().latestReferringParams
     }
 
     override fun onNewIntent(intent: Intent?) {

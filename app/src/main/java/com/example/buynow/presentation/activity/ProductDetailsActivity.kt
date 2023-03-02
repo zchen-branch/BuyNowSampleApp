@@ -178,8 +178,12 @@ class ProductDetailsActivity : AppCompatActivity() {
             val lp = LinkProperties()
                 .setChannel("FB")
                 .setFeature("sharing")
-            val ss = ShareSheetStyle(this, "Check", "Check")
+            val ss = ShareSheetStyle(this, "Check out this new product!", "Check out this new product!")
+                .setCopyUrlStyle(resources.getDrawable(android.R.drawable.ic_menu_send), "Copy", "Add to clipboard")
+                .setMoreOptionStyle(resources.getDrawable (android.R.drawable.ic_menu_search), "ShowMore")
                 .addPreferredSharingOption(SharingHelper.SHARE_WITH.FACEBOOK)
+                .addPreferredSharingOption(SharingHelper.SHARE_WITH.EMAIL)
+                .addPreferredSharingOption(SharingHelper.SHARE_WITH.SNAPCHAT)
 
             buo.showShareSheet(this,lp,ss, object: BranchLinkShareListener{
                 override fun onShareLinkDialogLaunched() {}
