@@ -1,5 +1,7 @@
 package com.example.buynow.presentation.activity
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -40,10 +42,12 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.os.Build
 import android.widget.Toast
 import io.branch.referral.QRCode.BranchQRCode
 import io.branch.referral.QRCode.BranchQRCode.BranchQRCodeImageHandler
 import java.lang.Exception
+
 
 
 class ProductDetailsActivity : AppCompatActivity() {
@@ -62,6 +66,7 @@ class ProductDetailsActivity : AppCompatActivity() {
     lateinit var productRating_singleProduct: RatingBar
     lateinit var ShareLink: Button
     lateinit var QRCode: Button
+    lateinit var pushnotification: Button
 
 
 
