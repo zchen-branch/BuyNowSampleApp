@@ -1,5 +1,6 @@
 package com.example.buynow.presentation.activity
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -44,8 +45,11 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Build
 import android.widget.Toast
+import io.branch.referral.Branch.BranchLinkShareListener
 import io.branch.referral.QRCode.BranchQRCode
 import io.branch.referral.QRCode.BranchQRCode.BranchQRCodeImageHandler
+import io.branch.referral.SharingHelper
+import io.branch.referral.util.ShareSheetStyle
 import java.lang.Exception
 
 
@@ -67,6 +71,7 @@ class ProductDetailsActivity : AppCompatActivity() {
     lateinit var ShareLink: Button
     lateinit var QRCode: Button
     lateinit var pushnotification: Button
+    lateinit var sharesheet: Button
 
 
 
@@ -84,6 +89,7 @@ class ProductDetailsActivity : AppCompatActivity() {
     lateinit var cardNumber: String
 
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_details)
@@ -163,6 +169,26 @@ class ProductDetailsActivity : AppCompatActivity() {
             })
 
         }
+        sharesheet=findViewById(R.id.share_sheet)
+        sharesheet.setOnClickListener {
+            val buo = BranchUniversalObject()
+                .setCanonicalIdentifier("content12345")
+                .setTitle("My Title")
+
+            val lp = LinkProperties()
+                .setChannel("FB")
+                .setFeature("sharing")
+            val ss = ShareSheetStyle(this, "Check", "Check")
+                .addPreferredSharingOption(SharingHelper.SHARE_WITH.FACEBOOK)
+
+            buo.showShareSheet(this,lp,ss, object: BranchLinkShareListener{
+                override fun onShareLinkDialogLaunched() {}
+                override fun onShareLinkDialogDismissed() {}
+                override fun onLinkShareResponse(sharedLink: String?, sharedChannel: String?, error: BranchError?) {}
+                override fun onChannelSelected(channelName: String) {}
+            })
+        }
+
 
         cardNumber = GetDefCard()
 

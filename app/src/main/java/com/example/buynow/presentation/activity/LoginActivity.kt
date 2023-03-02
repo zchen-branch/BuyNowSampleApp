@@ -58,6 +58,7 @@ class LoginActivity : AppCompatActivity() {
 
         signInBtn.setOnClickListener {
             checkInput()
+            Branch.getInstance().setIdentity("sundy");
 
 
         }
