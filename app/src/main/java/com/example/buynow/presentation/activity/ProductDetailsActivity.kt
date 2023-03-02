@@ -38,8 +38,12 @@ import java.util.*
 import kotlin.collections.ArrayList
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.graphics.Bitmap
+import android.graphics.Color
 import android.widget.Toast
-
+import io.branch.referral.QRCode.BranchQRCode
+import io.branch.referral.QRCode.BranchQRCode.BranchQRCodeImageHandler
+import java.lang.Exception
 
 
 class ProductDetailsActivity : AppCompatActivity() {
@@ -57,6 +61,7 @@ class ProductDetailsActivity : AppCompatActivity() {
     lateinit var RatingProductDetails: TextView
     lateinit var productRating_singleProduct: RatingBar
     lateinit var ShareLink: Button
+    lateinit var QRCode: Button
 
 
 
@@ -69,6 +74,7 @@ class ProductDetailsActivity : AppCompatActivity() {
     var pPrice: Int = 0
     lateinit var pPid: String
     lateinit var pImage: String
+    lateinit var pDes:String
 
     lateinit var cardNumber: String
 
@@ -97,9 +103,9 @@ class ProductDetailsActivity : AppCompatActivity() {
         ShareLink.setOnClickListener {
             val buo = BranchUniversalObject()
                 .setCanonicalIdentifier("content/12345")
-                .setTitle(productName_ProductDetailsPage.toString())
-                .setContentDescription(productDes_ProductDetailsPage.toString())
-                .setContentImageUrl(productImage_ProductDetailsPage.toString())
+                .setTitle(pName.toString())
+                .setContentDescription(pDes.toString())
+                .setContentImageUrl(pImage.toString())
                 .setContentIndexingMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
                 .setLocalIndexMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
                 .setContentMetadata(ContentMetadata().addCustomMetadata("Branch", "value1"))
@@ -121,6 +127,36 @@ class ProductDetailsActivity : AppCompatActivity() {
                     Log.i("branch SDK", "Error generating link: $error")
                 }
             })
+        }
+        QRCode=findViewById(R.id.qr_code)
+        QRCode.setOnClickListener {
+            val qrCode = BranchQRCode()
+                .setCodeColor("#a4c639")
+                .setBackgroundColor(Color.WHITE)
+                .setMargin(1)
+                .setWidth(512)
+                .setImageFormat(BranchQRCode.BranchImageFormat.JPEG)
+                .setCenterLogo("https://cdn.branch.io/branch-assets/1598575682753-og_image.png")
+
+            val buo = BranchUniversalObject()
+               .setCanonicalIdentifier("content/12345")
+               .setTitle("My Content Title")
+               .setContentDescription("My Content Description")
+               .setContentImageUrl("https://lorempixel.com/400/400")
+
+            val lp= LinkProperties()
+                .setChannel("facebook")
+                .setFeature("sharing")
+                .setCampaign("content 123 launch")
+                 .setStage("new user")
+
+            qrCode.getQRCodeAsImage(this, buo,lp,object : BranchQRCodeImageHandler<Any?>{
+                override fun onSuccess(qrCodeImage: Bitmap) {}
+                override fun onFailure(e: Exception?) {
+                    Log.d("Failed", e.toString())
+                }
+            })
+
         }
 
         cardNumber = GetDefCard()
@@ -256,6 +292,7 @@ class ProductDetailsActivity : AppCompatActivity() {
         pPrice = coverD[productIndex].productPrice.toInt()
         pPid = coverD[productIndex].productId
         pImage = coverD[productIndex].productImage
+        pDes =coverD[productIndex].productDes
 
     }
 
