@@ -76,6 +76,7 @@ class ProductDetailsActivity : AppCompatActivity() {
     lateinit var QRCode: Button
     lateinit var pushnotification: Button
     lateinit var sharesheet: Button
+    lateinit var product_GroupViewAll: Button
 
 
 
@@ -117,7 +118,7 @@ class ProductDetailsActivity : AppCompatActivity() {
         ShareLink=findViewById(R.id.share_button)
         ShareLink.setOnClickListener {
             val buo = BranchUniversalObject()
-                .setCanonicalIdentifier("content/12345")
+                .setCanonicalIdentifier("product")
                 .setTitle(pName.toString())
                 .setContentDescription(pDes.toString())
                 .setContentImageUrl(pImage.toString())
@@ -227,13 +228,15 @@ class ProductDetailsActivity : AppCompatActivity() {
                 val resultPendingIntent = PendingIntent.getActivity(this,0,resultIntent,PendingIntent.FLAG_UPDATE_CURRENT)
                 NotificationBuilder.setContentIntent(resultPendingIntent)
                 notificationManager.notify(0,NotificationBuilder.build())
-                //val resultIntent = Intent(this,SettingsActivity::class.java)
-                   // resultIntent.putExtra("Branch","https://sundychen.app.link/1LfaRHF34nb")
-                   // resultIntent.putExtra("Branch_force_new_session", true)
-                //val resultPendingIntent = PendingIntent.getActivity(this,0,resultIntent,PendingIntent.FLAG_UPDATE_CURRENT)
             }
 
-
+        product_GroupViewAll = findViewById(R.id.product_GroupViewAll)
+        product_GroupViewAll.setOnClickListener {
+                val Intent = Intent(this, SettingsActivity::class.java)
+                Intent.putExtra("Branch", "https://sundychen.app.link/1LfaRHF34nb")
+                Intent.putExtra("Branch_force_new_session", true)
+                startActivity(Intent)
+        }
 
         cardNumber = GetDefCard()
 

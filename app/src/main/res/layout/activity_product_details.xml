@@ -130,6 +130,7 @@
                     android:transformPivotX="0dp"
                     android:transformPivotY="15dp" />
 
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -311,7 +312,9 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1" />
 
-                        <TextView
+
+
+                        <Button
                             android:id="@+id/product_GroupViewAll"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
@@ -319,7 +322,8 @@
                             android:gravity="center"
                             android:text="View all"
                             android:textColor="@color/mainText"
-                            android:textSize="12sp" />
+                            />
+
 
                     </LinearLayout>
 
