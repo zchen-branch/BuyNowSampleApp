@@ -77,8 +77,10 @@ class SplashScreenActivity : AppCompatActivity() {
                 }
                 val sessionParam = Branch.getInstance().latestReferringParams
                     Log.e("BranchRouting", sessionParam.toString())
+                    Log.d("MyApp", "sessionParam.has(\"\\\$canonical_identifier\"): ${sessionParam.has("\$canonical_identifier")}")
+                    Log.d("MyApp", "sessionParam.getString(\"setting\"): ${sessionParam.getString("\$canonical_identifier") == "setting"}")
 
-                if (sessionParam.has("CanonicalIdentifier") && sessionParam.getString("setting") == "setting activity") {
+                if (sessionParam.has("\$canonical_identifier") && sessionParam.getString("\$canonical_identifier") == "setting") {
                     val intent = Intent(this, SettingsActivity::class.java)
                     startActivity(intent)
                     finish()
