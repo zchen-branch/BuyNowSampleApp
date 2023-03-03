@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.buynow.R
 import io.branch.referral.Branch
+import io.branch.referral.BranchError
+import org.json.JSONObject
 import com.example.buynow.utils.FirebaseUtils as FirebaseUtils1
 
 @SuppressLint("CustomSplashScreen")
@@ -68,6 +70,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         //get the latest data
         val sessionParams = Branch.getInstance().latestReferringParams
+        onInitFinished(sessionParams, null)
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -80,4 +83,26 @@ class SplashScreenActivity : AppCompatActivity() {
             }
         }.reInit()
     }
+
+    fun onInitFinished(referringParams: JSONObject?, error: BranchError?) {
+        if (error == null) {
+            // Extract the data you need from the location
+            val deeplinkPath = referringParams?.optString("location")
+            Log.d("deeplink", "deeplinkPath: $deeplinkPath")
+            navigateToActivity(deeplinkPath)
+
+        }
+            }
+
+    private fun navigateToActivity(deeplinkPath: String?) {
+        Log.d("deeplink", "Navigating to deeplinkPath: location")
+        val intent = when (deeplinkPath) {
+            "setting" ->  Intent (this, PaymentMethodActivity::class.java)
+            "settings"->  Intent (this, SettingsActivity::class.java)
+            else ->  {Intent(this, HomeActivity::class.java)}
+        }
+        startActivity(intent)
+        finish()
+    }
 }
+
