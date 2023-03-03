@@ -52,8 +52,9 @@ class SplashScreenActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        //initialize the Branch SDK
+        //set Adobe ID
         Branch.getInstance().setRequestMetadata("\$marketing_cloud_visitor_id", "sundy")
+        //initialize the Branch SDK
         Branch.sessionBuilder(this).withCallback { branchUniversalObject, linkProperties, error ->
             if (error != null) {
                 Log.e("BranchSDK_Tester", "branch init failed. Caused by -" + error.message)
@@ -74,18 +75,19 @@ class SplashScreenActivity : AppCompatActivity() {
                     Log.e("BranchSDK_Tester", "Channel " + linkProperties.channel)
                     Log.e("BranchSDK_Tester", "control params " + linkProperties.controlParams)
                 }
+                val sessionParam = Branch.getInstance().latestReferringParams
+                    Log.e("BranchRouting", sessionParam.toString())
+
+                if (sessionParam.has("CanonicalIdentifier") && sessionParam.getString("setting") == "setting activity") {
+                    val intent = Intent(this, SettingsActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
             }
         }.withData(this.intent.data).init()
 
-        //get the latest data from SessionParams
-        val sessionParams = Branch.getInstance().latestReferringParams
-        Log.e("BranchSDK_Tester", "sessionParams " + sessionParams.has("location") + sessionParams.toString())
 
-        if (sessionParams.has("location") && sessionParams.getString("setting") == "setting_activity") {
-            val intent = Intent(this, SettingsActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -97,6 +99,8 @@ class SplashScreenActivity : AppCompatActivity() {
                 Log.e("BranchSDK_Tester", referringParams.toString())
             }
         }.reInit()
-    }}
+    }
+}
+
 
 
