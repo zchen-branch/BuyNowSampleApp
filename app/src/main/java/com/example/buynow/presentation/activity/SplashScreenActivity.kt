@@ -37,20 +37,23 @@ class SplashScreenActivity : AppCompatActivity() {
             finish()
         }
 */
-        if(FirebaseUtils1.firebaseUser != null){
+        if (FirebaseUtils1.firebaseUser != null) {
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
             finish()
         }
-        if(FirebaseUtils1.firebaseUser == null){
+        if (FirebaseUtils1.firebaseUser == null) {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }
 
     }
+
     override fun onStart() {
         super.onStart()
+        //initialize the Branch SDK
+        Branch.getInstance().setRequestMetadata("\$marketing_cloud_visitor_id", "sundy")
         Branch.sessionBuilder(this).withCallback { branchUniversalObject, linkProperties, error ->
             if (error != null) {
                 Log.e("BranchSDK_Tester", "branch init failed. Caused by -" + error.message)
@@ -58,8 +61,14 @@ class SplashScreenActivity : AppCompatActivity() {
                 Log.e("BranchSDK_Tester", "branch init complete!")
                 if (branchUniversalObject != null) {
                     Log.e("BranchSDK_Tester", "title " + branchUniversalObject.title)
-                    Log.e("BranchSDK_Tester", "CanonicalIdentifier " + branchUniversalObject.canonicalIdentifier)
-                    Log.e("BranchSDK_Tester", "metadata " + branchUniversalObject.contentMetadata.convertToJson())
+                    Log.e(
+                        "BranchSDK_Tester",
+                        "CanonicalIdentifier " + branchUniversalObject.canonicalIdentifier
+                    )
+                    Log.e(
+                        "BranchSDK_Tester",
+                        "metadata " + branchUniversalObject.contentMetadata.convertToJson()
+                    )
                 }
                 if (linkProperties != null) {
                     Log.e("BranchSDK_Tester", "Channel " + linkProperties.channel)
@@ -68,9 +77,15 @@ class SplashScreenActivity : AppCompatActivity() {
             }
         }.withData(this.intent.data).init()
 
-        //get the latest data
+        //get the latest data from SessionParams
         val sessionParams = Branch.getInstance().latestReferringParams
-        onInitFinished(sessionParams, null)
+        Log.e("BranchSDK_Tester", "sessionParams " + sessionParams.has("location") + sessionParams.toString())
+
+        if (sessionParams.has("location") && sessionParams.getString("setting") == "setting_activity") {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -82,27 +97,6 @@ class SplashScreenActivity : AppCompatActivity() {
                 Log.e("BranchSDK_Tester", referringParams.toString())
             }
         }.reInit()
-    }
+    }}
 
-    fun onInitFinished(referringParams: JSONObject?, error: BranchError?) {
-        if (error == null) {
-            // Extract the data you need from the location
-            val deeplinkPath = referringParams?.optString("location")
-            Log.d("deeplink", "deeplinkPath: $deeplinkPath")
-            navigateToActivity(deeplinkPath)
-
-        }
-            }
-
-    private fun navigateToActivity(deeplinkPath: String?) {
-        Log.d("deeplink", "Navigating to deeplinkPath: location")
-        val intent = when (deeplinkPath) {
-            "setting" ->  Intent (this, PaymentMethodActivity::class.java)
-            "settings"->  Intent (this, SettingsActivity::class.java)
-            else ->  {Intent(this, HomeActivity::class.java)}
-        }
-        startActivity(intent)
-        finish()
-    }
-}
 

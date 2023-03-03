@@ -45,6 +45,8 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Build
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.content.getSystemService
 import io.branch.referral.Branch.BranchLinkShareListener
 import io.branch.referral.QRCode.BranchQRCode
 import io.branch.referral.QRCode.BranchQRCode.BranchQRCodeImageHandler
@@ -192,6 +194,35 @@ class ProductDetailsActivity : AppCompatActivity() {
                 override fun onChannelSelected(channelName: String) {}
             })
         }
+
+            //Create a notification channel
+            val CHANNEL_Id = "com.example.buynow.notification"
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val name = "Branch"
+                val description = "Branch Push"
+                val importance: Int = NotificationManager.IMPORTANCE_DEFAULT
+                val channel = NotificationChannel(CHANNEL_Id, name, importance)
+                channel.description = description
+
+            //register channel with the system
+                val notificationManager: NotificationManager = getSystemService(NotificationManager::class.java)
+                notificationManager.createNotificationChannel(channel)
+            }
+            //create a notification builder and set its properties. This is currently static
+            val NotificationBuilder = NotificationCompat.Builder(this,CHANNEL_Id )
+                .setSmallIcon(R.drawable.common_google_signin_btn_icon_light)
+                .setContentTitle("New Product Alert! Get into the app right now!")
+                .setContentText("If you open the app today everything is free")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+
+        // Use the notification manager to display the notification
+
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            pushnotification = findViewById(R.id.push_notification)
+            pushnotification.setOnClickListener {
+                notificationManager.notify(0,NotificationBuilder.build())
+            }
+
 
 
         cardNumber = GetDefCard()
