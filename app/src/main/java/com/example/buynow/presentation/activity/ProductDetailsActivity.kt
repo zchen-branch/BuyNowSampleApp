@@ -3,6 +3,7 @@ package com.example.buynow.presentation.activity
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -43,6 +44,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
@@ -220,7 +222,15 @@ class ProductDetailsActivity : AppCompatActivity() {
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             pushnotification = findViewById(R.id.push_notification)
             pushnotification.setOnClickListener {
+                val resultIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sundychen.app.link/1LfaRHF34nb"))
+                resultIntent.putExtra("Branch_force_new_session", true)
+                val resultPendingIntent = PendingIntent.getActivity(this,0,resultIntent,PendingIntent.FLAG_UPDATE_CURRENT)
+                NotificationBuilder.setContentIntent(resultPendingIntent)
                 notificationManager.notify(0,NotificationBuilder.build())
+                //val resultIntent = Intent(this,SettingsActivity::class.java)
+                   // resultIntent.putExtra("Branch","https://sundychen.app.link/1LfaRHF34nb")
+                   // resultIntent.putExtra("Branch_force_new_session", true)
+                //val resultPendingIntent = PendingIntent.getActivity(this,0,resultIntent,PendingIntent.FLAG_UPDATE_CURRENT)
             }
 
 
