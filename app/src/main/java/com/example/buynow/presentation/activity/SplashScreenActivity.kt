@@ -2,6 +2,7 @@ package com.example.buynow.presentation.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -75,15 +76,26 @@ class SplashScreenActivity : AppCompatActivity() {
                     Log.e("BranchSDK_Tester", "Channel " + linkProperties.channel)
                     Log.e("BranchSDK_Tester", "control params " + linkProperties.controlParams)
                 }
+                val webOnlyKey = "\$web_only"
+
+
                 val sessionParam = Branch.getInstance().latestReferringParams
                     Log.e("BranchRouting", sessionParam.toString())
                     Log.d("MyApp", "sessionParam.has(\"\\\$canonical_identifier\"): ${sessionParam.has("\$canonical_identifier")}")
                     Log.d("MyApp", "sessionParam.getString(\"setting\"): ${sessionParam.getString("\$canonical_identifier") == "setting"}")
+                    Log.d("MyAppWeb", "sessionParam.has(\"\\\$web_only\"): ${sessionParam.has("\$web_only")}")
+
 
                 if (sessionParam.has("\$canonical_identifier") && sessionParam.getString("\$canonical_identifier") == "setting") {
                     val intent = Intent(this, SettingsActivity::class.java)
                     startActivity(intent)
                     finish()
+                }
+                Log.d("MyAppWeb", "sessionParam.getString(\"true\"): ${sessionParam.getString("\$web_only") == "true"}")
+                //handling web only logic
+
+                if (sessionParam.has("\$web_only")) {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com")))
                 }
             }
         }.withData(this.intent.data).init()
