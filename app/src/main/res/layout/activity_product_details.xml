@@ -264,6 +264,15 @@
                             android:text=""
                             android:textSize="12sp" />
 
+                        <Button
+                            android:id="@+id/product_GroupViewAll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            android:text="check your payment! "/>
+
                     </LinearLayout>
 
                     <ImageView
@@ -311,18 +320,6 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1" />
-
-
-
-                        <Button
-                            android:id="@+id/product_GroupViewAll"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:fontFamily="@font/metropolis_regular"
-                            android:gravity="center"
-                            android:text="View all"
-                            android:textColor="@color/mainText"
-                            />
 
 
                     </LinearLayout>

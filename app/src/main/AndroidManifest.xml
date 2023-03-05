@@ -29,8 +29,19 @@
         <activity android:name=".presentation.activity.ProductDetailsActivity" />
         <activity android:name=".presentation.activity.SettingsActivity" />
         <activity android:name=".presentation.activity.SplashScreenActivity"
-            android:launchMode="singleTask"
-            android:exported="true">
+                  android:launchMode="singleTask"
+                  android:exported="true">
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+
+                <data android:host="zchen-branch.github.io/" />
+            </intent-filter>
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

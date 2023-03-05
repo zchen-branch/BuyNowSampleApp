@@ -223,20 +223,21 @@ class ProductDetailsActivity : AppCompatActivity() {
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             pushnotification = findViewById(R.id.push_notification)
             pushnotification.setOnClickListener {
-                val resultIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sundychen.app.link/1LfaRHF34nb"))
-                resultIntent.putExtra("Branch_force_new_session", true)
+                val resultIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://sundychen.app.link/pushnotification"))
+                resultIntent.putExtra("branch_force_new_session", true)
                 val resultPendingIntent = PendingIntent.getActivity(this,0,resultIntent,PendingIntent.FLAG_UPDATE_CURRENT)
                 NotificationBuilder.setContentIntent(resultPendingIntent)
                 notificationManager.notify(0,NotificationBuilder.build())
             }
-
         product_GroupViewAll = findViewById(R.id.product_GroupViewAll)
         product_GroupViewAll.setOnClickListener {
-                val Intent = Intent(this, SettingsActivity::class.java)
-                Intent.putExtra("Branch", "https://sundychen.app.link/1LfaRHF34nb")
-                Intent.putExtra("Branch_force_new_session", true)
-                startActivity(Intent)
+            val Intent = Intent(this, PaymentMethodActivity::class.java)
+            Intent.putExtra("branch_force_new_session", true)
+            Intent.putExtra("branch", "https://sundychen.app.link/intralink")
+            Intent.putExtra("branch_force_new_session", true)
+            startActivity(Intent)
         }
+
 
         cardNumber = GetDefCard()
 
