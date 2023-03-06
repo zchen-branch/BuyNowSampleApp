@@ -214,8 +214,8 @@ class ProductDetailsActivity : AppCompatActivity() {
             //create a notification builder and set its properties. This is currently static
             val NotificationBuilder = NotificationCompat.Builder(this,CHANNEL_Id )
                 .setSmallIcon(R.drawable.common_google_signin_btn_icon_light)
-                .setContentTitle("New Product Alert! Get into the app right now!")
-                .setContentText("If you open the app today everything is free")
+                .setContentTitle("Payment Update")
+                .setContentText("Looks like your payment has expired - update your card in the app!")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
 
         // Use the notification manager to display the notification
@@ -234,8 +234,8 @@ class ProductDetailsActivity : AppCompatActivity() {
             val Intent = Intent(this, PaymentMethodActivity::class.java)
             Intent.putExtra("branch_force_new_session", true)
             Intent.putExtra("branch", "https://sundychen.app.link/intralink")
-            Intent.putExtra("branch_force_new_session", true)
             startActivity(Intent)
+            finish()
         }
 
 
