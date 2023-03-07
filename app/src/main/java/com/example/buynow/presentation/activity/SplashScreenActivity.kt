@@ -9,6 +9,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.buynow.R
+import com.google.firebase.auth.EmailAuthCredential
+import com.google.firebase.auth.FirebaseAuth
 import io.branch.referral.Branch
 import io.branch.referral.BranchError
 import org.json.JSONObject
@@ -53,8 +55,11 @@ class SplashScreenActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        //set Adobe ID
-        Branch.getInstance().setRequestMetadata("\$marketing_cloud_visitor_id", "sundy")
+        //set Adobe ID using the Firebase ID number
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        Log.e("Adobe ID", FirebaseAuth.getInstance().currentUser?.uid.toString())
+        Branch.getInstance().setRequestMetadata("\$fire_base_id", uid.toString())
+
         //initialize the Branch SDK
         Branch.sessionBuilder(this).withCallback { branchUniversalObject, linkProperties, error ->
             if (error != null) {
@@ -76,21 +81,16 @@ class SplashScreenActivity : AppCompatActivity() {
                     Log.e("BranchSDK_Tester", "Channel " + linkProperties.channel)
                     Log.e("BranchSDK_Tester", "control params " + linkProperties.controlParams)
                 }
-               // val webOnlyKey = "\$web_only"
 
-
-                    val sessionParam = Branch.getInstance().latestReferringParams
-                    val branchwebactivity = Branch.getInstance().latestReferringParams.getString("\$canonical_identifier")
+                //Define session params that can be later reserved for routing purposes
+                val sessionParam = Branch.getInstance().latestReferringParams
+                //I have a specific key indication the website to be opened. And I wanted to set it as branchwebactivity
+                val branchwebactivity = Branch.getInstance().latestReferringParams.getString("\$canonical_identifier")
                     //print out whether the link itself contains the routing indicators
-                    //Log.e("BranchRouting", sessionParam.toString())
-                   // Log.d("BranchRouting", "sessionParam.has(\"\\\$canonical_identifier\"): ${sessionParam.has("\$canonical_identifier")}")
-                //Log.d("BranchRouting", "sessionParam.getString(\"setting\"): ${sessionParam.getString("\$canonical_identifier") == "setting"}")
-                   // Log.d("BranchRouting", "sessionParam.has(\"\\\$web_only\"): ${sessionParam.getString("\$web_only") == "true"}")
+                    Log.e("BranchRouting", sessionParam.toString())
+                    //testing purposes Log.d("BranchRouting", "sessionParam.has(\"\\\$canonical_identifier\"): ${sessionParam.has("\$canonical_identifier")}")
+                    // testing purposes Log.d("BranchRouting", "sessionParam.getString(\"setting\"): ${sessionParam.getString("\$canonical_identifier") == "setting"}")
 
-                // code to route web-only links to the web
-//                if (sessionParam.has("\$web_only") && sessionParam.getString("\$web_only").toBoolean()) {
-//                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com")))
-//                }
                 // code to route web-only links to the web
                 if (sessionParam.has("\$web_only") && sessionParam.getString("\$web_only").toBoolean()) {
                     startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(branchwebactivity)))

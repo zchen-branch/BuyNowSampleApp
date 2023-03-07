@@ -117,21 +117,26 @@ class ProductDetailsActivity : AppCompatActivity() {
         val cardNumberProduct_Details:TextView = findViewById(R.id.cardNumberProduct_Details)
         ShareLink=findViewById(R.id.share_button)
         ShareLink.setOnClickListener {
+
+            // BUO will take values that have being assigned to the specific product
             val buo = BranchUniversalObject()
-                .setCanonicalIdentifier("product")
-                .setTitle(pName.toString())
-                .setContentDescription(pDes.toString())
-                .setContentImageUrl(pImage.toString())
+                .setCanonicalIdentifier(pPid)
+                .setTitle(pName)
+                .setContentDescription(pDes)
+                .setContentImageUrl(pImage)
                 .setContentIndexingMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
                 .setLocalIndexMode(BranchUniversalObject.CONTENT_INDEX_MODE.PUBLIC)
-                .setContentMetadata(ContentMetadata().addCustomMetadata("Branch", "value1"))
+                .setContentMetadata(ContentMetadata().addCustomMetadata("ShareLinks", "In-app"))
 
+            // LP will stay static except for campaign name will be the name of the product being shared
             val lp = LinkProperties()
                 .setChannel("SMS")
                 .setFeature("sharing")
-                .setCampaign("content 123 launch")
+                .setCampaign(pName)
                 .setStage("new user")
-                .addControlParameter("custom", "data")
+                .addControlParameter("ShareLinks", "In-app")
+
+            //trigger branch link to be paste-able in the pasteboard, defining messaging
 
             buo.generateShortUrl(this,lp, Branch.BranchLinkCreateListener { url, error ->
                 if (url != null) {
@@ -144,6 +149,8 @@ class ProductDetailsActivity : AppCompatActivity() {
                 }
             })
         }
+
+        //QR Code logic - however, still not enabled and the log indicates feature not available
         QRCode=findViewById(R.id.qr_code)
         QRCode.setOnClickListener {
             val qrCode = BranchQRCode()
@@ -155,15 +162,15 @@ class ProductDetailsActivity : AppCompatActivity() {
                 .setCenterLogo("https://cdn.branch.io/branch-assets/1598575682753-og_image.png")
 
             val buo = BranchUniversalObject()
-               .setCanonicalIdentifier("content/12345")
-               .setTitle("My Content Title")
-               .setContentDescription("My Content Description")
-               .setContentImageUrl("https://lorempixel.com/400/400")
+               .setCanonicalIdentifier(pPid)
+               .setTitle(pName)
+               .setContentDescription(pDes)
+               .setContentImageUrl(pImage)
 
             val lp= LinkProperties()
                 .setChannel("facebook")
                 .setFeature("sharing")
-                .setCampaign("content 123 launch")
+                .setCampaign(pName)
                  .setStage("new user")
 
             qrCode.getQRCodeAsImage(this, buo,lp,object : BranchQRCodeImageHandler<Any?>{
@@ -176,12 +183,13 @@ class ProductDetailsActivity : AppCompatActivity() {
         }
         sharesheet=findViewById(R.id.share_sheet)
         sharesheet.setOnClickListener {
+            // BUO will take values that have being assigned to the specific product
             val buo = BranchUniversalObject()
-                .setCanonicalIdentifier("content12345")
-                .setTitle("My Title")
-
+                .setCanonicalIdentifier(pPid)
+                .setTitle(pDes)
+            // LP will take values that have being assigned to the specific product
             val lp = LinkProperties()
-                .setChannel("FB")
+                .setChannel("Mobile_sharing")
                 .setFeature("sharing")
             val ss = ShareSheetStyle(this, "Check out this new product!", "Check out this new product!")
                 .setCopyUrlStyle(resources.getDrawable(android.R.drawable.ic_menu_send), "Copy", "Add to clipboard")
@@ -229,12 +237,13 @@ class ProductDetailsActivity : AppCompatActivity() {
                 NotificationBuilder.setContentIntent(resultPendingIntent)
                 notificationManager.notify(0,NotificationBuilder.build())
             }
+
         product_GroupViewAll = findViewById(R.id.product_GroupViewAll)
         product_GroupViewAll.setOnClickListener {
-            val Intent = Intent(this, PaymentMethodActivity::class.java)
-            Intent.putExtra("branch_force_new_session", true)
-            Intent.putExtra("branch", "https://sundychen.app.link/intralink")
-            startActivity(Intent)
+            val IntraIntent = Intent(this, PaymentMethodActivity::class.java)
+            IntraIntent.putExtra("branch", "https://sundychen.app.link/intralink")
+            IntraIntent.putExtra("branch_force_new_session", true)
+            startActivity(IntraIntent)
             finish()
         }
 
